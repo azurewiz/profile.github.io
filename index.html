@@ -12,6 +12,11 @@
             padding: 0;
             background: #f9f9f9;
         }
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #4CAF50;
+        }
         .grid-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -26,7 +31,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding: 20px;
             text-align: center;
-            transition: transform 0.3s, background-color 0.3s, color 0.3s;
+            transition: transform 0.3s ease, background-color 0.3s, color 0.3s;
         }
         .grid-item:hover {
             cursor: pointer;
@@ -41,26 +46,16 @@
         .grid-item ul li {
             margin: 5px 0;
         }
-        .popup {
+        .active-item {
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 80%;
-            max-width: 500px;
+            transform: translate(-50%, -50%) scale(1.2);
             z-index: 1000;
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-        .popup h2 {
-            color: #4CAF50;
-        }
-        .popup.active {
-            transform: translate(-50%, -50%) scale(1);
+            background: #4CAF50;
+            color: white;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
         }
         .overlay {
             position: fixed;
@@ -76,9 +71,17 @@
         .overlay.active {
             opacity: 1;
         }
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
+    <h1>Welcome to My Professional Portfolio</h1>
     <main class="grid-container">
         <div class="grid-item" id="about">
             <h2>About Me</h2>
@@ -119,9 +122,9 @@
 
         <div class="grid-item" id="projects">
             <h2>Projects</h2>
-            <h3><a href="https://github.com/azurewiz">GitHub Profile</a></h3>
+            <h3><a href="https://github.com/azurewiz" target="_blank">GitHub Profile</a></h3>
             <p>Repository of projects, including AWS and software engineering contributions.</p>
-            <h3><a href="https://azurewiz.github.io/">Certifications Portfolio</a></h3>
+            <h3><a href="https://azurewiz.github.io/" target="_blank">Certifications Portfolio</a></h3>
             <p>A showcase of certifications and achievements.</p>
         </div>
 
@@ -140,29 +143,22 @@
     </main>
 
     <div class="overlay" id="overlay"></div>
-    <div class="popup" id="popup">
-        <h2></h2>
-        <p></p>
-    </div>
 
     <script>
         const gridItems = document.querySelectorAll('.grid-item');
-        const popup = document.getElementById('popup');
         const overlay = document.getElementById('overlay');
 
         gridItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const heading = item.querySelector('h2').innerText;
-                const content = item.querySelector('p')?.innerText || '';
-                popup.querySelector('h2').innerText = heading;
-                popup.querySelector('p').innerText = content;
-                popup.classList.add('active');
+            const h2 = item.querySelector('h2');
+
+            h2.addEventListener('click', () => {
+                item.classList.add('active-item');
                 overlay.classList.add('active');
             });
         });
 
         overlay.addEventListener('click', () => {
-            popup.classList.remove('active');
+            document.querySelector('.active-item')?.classList.remove('active-item');
             overlay.classList.remove('active');
         });
     </script>
